@@ -11,17 +11,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/**
- * Integration tests to verify security on REST layer.
- */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = SpringSecurityLab2Application.class)
+@SpringApplicationConfiguration(classes = SpringSecurityLab3Application.class)
 @WebAppConfiguration
 public class AuthorizeRestCallsIntegrationTest {
 
@@ -49,8 +47,36 @@ public class AuthorizeRestCallsIntegrationTest {
     @Test
     public void verifyRootPathAuthorizeOK() throws Exception {
         this.mvc
-                .perform ( get( "/" ).with(user("admin").password("admin").roles("ADMIN") ) )
+                .perform ( get( "/" ).with(csrf()).with(user("admin").password("admin").roles("ADMIN") ) )
                 .andExpect ( status ().isOk () );
+    }
+
+    @Test
+    public void verifyRootPathCsrfNOK() throws Exception {
+        this.mvc
+                .perform ( get( "/" ).with(csrf().useInvalidToken ()).with(user("admin").password("admin").roles("ADMIN") ) )
+                .andExpect ( status ().isOk () );
+    }
+
+    @Test
+    public void verifyAuditPathAuthorizeOK() throws Exception {
+        this.mvc
+                .perform ( get( "/audit" ).with(user("admin").password("admin").roles("ADMIN") ) )
+                .andExpect ( status ().isOk () );
+    }
+
+    @Test
+	public void verifyAdminPathAuthorizeOK() throws Exception {
+        this.mvc
+                .perform ( get( "/admin" ).with(user("admin").password("admin").roles("ADMIN") ) )
+                .andExpect ( status ().isOk () );
+	}
+
+    @Test
+    public void verifyAdminPathAuthorizeNOK() throws Exception {
+        this.mvc
+                .perform ( get( "/admin" ).with(user("user").password("secure").roles("USER") ) )
+                .andExpect ( status ().isForbidden () );
     }
 
 }

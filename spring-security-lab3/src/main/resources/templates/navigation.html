@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.min.css}" rel="stylesheet" media="screen" />
+    <title>Login</title>
+</head>
+<body>
+    <div th:fragment="nav">
+        <div class="bg-info">
+            <ul class="list-inline">
+                <li>
+                    <form th:action="@{/logout}" method="post">
+                        <input type="submit" class="btn btn-link" value="Logout"/>
+                    </form>
+                </li>
+                <li><a th:href="@{/}" class="btn btn-standard">Home</a></li>
+                <li><a th:href="@{/admin}" class="btn btn-standard">Admin</a></li>
+                <li><a th:href="@{/audit}" class="btn btn-standard">Auditor</a></li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

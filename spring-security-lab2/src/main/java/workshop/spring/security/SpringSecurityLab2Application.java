@@ -16,10 +16,21 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 @RestController
 public class SpringSecurityLab2Application {
+    private static final Logger LOGGER = LoggerFactory.getLogger ( SpringSecurityLab2Application.class );
 
     public static void main(String[] args) {
         SpringApplication.run( SpringSecurityLab2Application.class, args);
     }
 
-
+    /**
+     * Restful service.
+     * @return message
+     */
+    @RequestMapping(path = "/")
+    public String hello() {
+        final Authentication authentication = SecurityContextHolder.getContext ().getAuthentication ();
+        LOGGER.info ( "Granted roles are: {}", authentication.getAuthorities () );
+        return String.format ( "hello %s, having roles %s",
+                ( (UserDetails) authentication.getPrincipal () ).getUsername (), authentication.getAuthorities () );
+    }
 }

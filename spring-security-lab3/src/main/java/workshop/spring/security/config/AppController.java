@@ -6,13 +6,15 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Created by AFA on 09.12.2015.
  */
-@RestController
+@Controller
 public class AppController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger ( AppController.class );
@@ -22,33 +24,30 @@ public class AppController {
      * Restful service.
      * @return message
      */
-    @Secured ( "ROLE_USER" )
     @RequestMapping(path = "/")
-    public String hello() {
+    public String index( Model model ) {
         final Authentication authentication = SecurityContextHolder.getContext ().getAuthentication ();
         LOGGER.info ( "Granted roles are: {}", authentication.getAuthorities () );
-        return String.format ( "hello %s, having roles %s",
-                ( (UserDetails) authentication.getPrincipal () ).getUsername (), authentication.getAuthorities () );
+        model.addAttribute ( "username", "Hello " + ( (UserDetails) authentication.getPrincipal () ).getUsername () );
+        return "index";
     }
 
     /**
      * Restful service.
      * @return message
      */
-    @Secured ( "ROLE_ADMIN" )
     @RequestMapping(path = "/admin")
     public String admin() {
-        return "Administration page";
+        return "admin";
     }
 
     /**
      * Restful service.
      * @return message
      */
-    @Secured ( "ROLE_AUDITOR" )
     @RequestMapping(path = "/audit")
     public String audit() {
-        return "Audit page";
+        return "audit";
     }
 
 }
