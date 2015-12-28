@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:include="head :: header"></div>
+    <title>Timesheet</title>
+</head>
+<body>
+    <div class="container">
+        <div th:include="navigation :: nav"></div>
+        <h1>Timesheet</h1>
+
+        <h2>Timesheet tracking</h2>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Index</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Project</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="ts,iterStat : ${allTimesheetEntries}">
+                <td th:text="${iterStat.count}">0</td>
+                <td th:text="${ts.startDate}">13/01/2011</td>
+                <td th:text="${ts.endDate}">13/01/2011</td>
+                <td th:text="${ts.project.name}">13/01/2011</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <a th:href="@{/addTimesheetEntry}" class="btn btn-standard">Add new entry</a>
+    </div>
+</body>
+</html>

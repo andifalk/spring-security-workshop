@@ -1,11 +1,13 @@
 package workshop.spring.security.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 
 /**
@@ -15,12 +17,12 @@ import org.springframework.security.web.csrf.CsrfTokenRepository;
 @Configuration
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private UserDetailsService userDetailsService;
+
     @Override
     protected void configure ( AuthenticationManagerBuilder auth ) throws Exception {
-        auth.inMemoryAuthentication ()
-                .withUser ( "user" ).password ( "secure" ).roles ( "USER" )
-                .and ()
-                .withUser ( "admin" ).password ( "admin" ).roles ( "ADMIN" );
+        auth.userDetailsService ( userDetailsService  );
     }
 
     @Override
@@ -31,12 +33,16 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .failureUrl ( "/login-error" )
                 .and ().logout ().logoutUrl ( "/logout" ).permitAll ().logoutSuccessUrl ( "/login" )
             .and ()
-            .authorizeRequests ()
+                .antMatcher ( "/h2-console/**" )
+                .csrf ().disable ().headers ().frameOptions ().disable ()
+                .and ()
+                .antMatcher ( "/**" )
+                .authorizeRequests ()
                 .antMatchers ( "/resources/**" ).permitAll ()
                 .antMatchers ( "/webjars/**" ).permitAll ()
-                .antMatchers ( "/users" ).hasAnyRole ( "ADMIN", "USER" )
-                .antMatchers ( "/admin" ).hasRole ( "ADMIN" )
-                .antMatchers ( "/audit" ).hasAnyRole ( "ADMIN", "AUDITOR" )
+                .antMatchers ( "/users" ).hasRole ( "SUPERADMIN" )
+                .antMatchers ( "/projects" ).hasAnyRole ( "SUPERADMIN", "ADMIN" )
+                .antMatchers ( "/timesheet" ).hasAnyRole ( "ADMIN", "USER" )
                 .anyRequest ().fullyAuthenticated ();
     }
 }
