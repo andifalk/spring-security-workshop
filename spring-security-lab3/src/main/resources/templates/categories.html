@@ -2,31 +2,29 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <div th:include="head :: header"></div>
-    <title>Administration of Projects</title>
+    <title>Administration of Categories</title>
 </head>
 <body>
     <div class="container">
         <div th:include="navigation :: nav"></div>
-        <h1>Project Administration</h1>
+        <h1>Category Administration</h1>
 
-        <table class="table table-striped">
+        <table class="table table-striped" id="categories">
             <thead>
             <tr>
                 <th>Index</th>
                 <th>Name</th>
-                <th>Active</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="prj,iterStat : ${allProjects}">
+            <tr th:each="cat,iterStat : ${allCategories}">
                 <td th:text="${iterStat.count}">0</td>
-                <td th:text="${prj.name}">13/01/2011</td>
-                <td th:text="${prj.active}? 'Yes' : 'No'">yes</td>
+                <td th:text="${cat.name}">test</td>
             </tr>
             </tbody>
         </table>
 
-        <a th:href="@{/addproject}" class="btn btn-standard">Add new project</a>
+        <a th:href="@{/addcategory}" class="btn btn-standard" id="newCategoryButton">Add new category</a>
 
     </div>
 </body>

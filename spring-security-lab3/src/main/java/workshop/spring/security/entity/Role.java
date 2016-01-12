@@ -6,7 +6,10 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Role entity.
@@ -14,6 +17,9 @@ import javax.persistence.Entity;
 @Entity
 public class Role extends AbstractPersistable<Long> {
 
+    @NotNull
+    @Size(min = 3, max = 50)
+    @Column(length = 50, nullable = false, unique = true)
     private String name;
 
     @SuppressWarnings ( "unused" )

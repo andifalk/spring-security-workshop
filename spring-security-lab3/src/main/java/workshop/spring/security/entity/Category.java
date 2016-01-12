@@ -4,39 +4,35 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.data.jpa.domain.AbstractAuditable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Project entity.
  */
 @Entity
-public class Project extends AbstractAuditable<User,Long> {
+public class Category extends AbstractAuditable<User,Long> {
 
+    @NotNull
+    @Size(min = 3, max = 30)
+    @Column(length = 30, nullable = false, unique = true)
     private String name;
-    private boolean active;
 
-    public Project () {
+    public Category () {
     }
 
-    public Project ( String name, boolean active ) {
+    public Category ( String name ) {
         this.name = name;
-        this.active = active;
     }
 
     public String getName () {
         return name;
     }
 
-    public boolean isActive () {
-        return active;
-    }
-
     public void setName ( String name ) {
         this.name = name;
-    }
-
-    public void setActive ( boolean active ) {
-        this.active = active;
     }
 
     @Override
@@ -44,7 +40,6 @@ public class Project extends AbstractAuditable<User,Long> {
         return new ToStringBuilder ( this, ToStringStyle.SIMPLE_STYLE )
                 .appendSuper ( super.toString () )
                 .append ( "name", name )
-                .append ( "active", active )
                 .toString ();
     }
 }

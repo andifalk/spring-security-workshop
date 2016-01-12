@@ -28,28 +28,28 @@ import java.util.stream.Collectors;
 @Entity
 public class User extends AbstractPersistable<Long> implements UserDetails, CredentialsContainer {
 
-    @Column(unique = true, length = 30, nullable = false)
     @NotNull
     @Size(min = 3, max = 30)
+    @Column(unique = true, length = 30, nullable = false)
     private String username;
 
-    @Column(length = 100, nullable = false)
     @NotNull
     @Size(min = 5, max = 100)
+    @Column(length = 100, nullable = false)
     private String password;
 
-    @Column(length = 50, nullable = false)
     @NotNull
     @Size(min = 1, max = 50)
+    @Column(length = 50, nullable = false)
     private String firstName;
 
-    @Column(length = 50, nullable = false)
     @NotNull
     @Size(min = 1, max = 50)
+    @Column(length = 50, nullable = false)
     private String lastName;
 
-    @Column(nullable = false)
     @NotNull
+    @Column(nullable = false)
     private boolean active = true;
 
     @NotNull

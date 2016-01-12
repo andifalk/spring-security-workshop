@@ -23,10 +23,7 @@ import java.util.List;
 @Configuration
 public class SecurityConfiguration extends GlobalMethodSecurityConfiguration {
 
-    private static final String ROLE_HIERARCHY =
-            "ROLE_SUPERADMIN > ROLE_ADMIN\n"
-            + "ROLE_SUPERADMIN > ROLE_USER\n"
-            + "ROLE_ADMIN > ROLE_USER";
+    private static final String ROLE_HIERARCHY = "ROLE_ADMIN > ROLE_USER";
 
     @Override
     protected AccessDecisionManager accessDecisionManager () {

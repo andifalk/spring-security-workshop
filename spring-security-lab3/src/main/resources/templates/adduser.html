@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:include="head :: header"></div>
+    <title>New User</title>
+</head>
+<body>
+    <div class="container">
+        <div th:include="navigation :: nav"></div>
+        <h1>Add new user</h1>
+
+        <form action="#" th:action="@{/createuser}" th:object="${user}" method="post" id="createUserForm">
+            <div class="form-group">
+                <label th:for="${#ids.next('username')}">Subject</label>
+                <input type="text" th:field="*{username}" id="username"/>
+            </div>
+            <div class="form-group">
+                <label th:for="${#ids.next('password')}">Password</label>
+                <input type="password" th:field="*{password}" id="password"/>
+            </div>
+            <div class="form-group">
+                <label th:for="${#ids.next('repeatPassword')}">Start date</label>
+                <input type="date" th:field="*{repeatPassword}" id="repeatPassword"/>
+            </div>
+            <div class="form-group">
+                <label th:for="${#ids.next('firstname')}">First name</label>
+                <input type="text" th:field="*{firstname}" id="firstname"/>
+            </div>
+            <div class="form-group">
+                <label th:for="${#ids.next('lastname')}">Last name</label>
+                <input type="text" th:field="*{lastname}" id="lastname"/>
+            </div>
+            <input type="submit" value="Submit" id="saveToDoButton"></input>
+        </form>
+    </div>
+</body>
+</html>

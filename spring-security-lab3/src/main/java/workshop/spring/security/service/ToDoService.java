@@ -1,21 +1,21 @@
 package workshop.spring.security.service;
 
 import org.springframework.transaction.annotation.Transactional;
-import workshop.spring.security.entity.Project;
+import workshop.spring.security.entity.Todo;
 
 import java.util.List;
 
 /**
- * Service for managing {@link Project projects}.
+ * Service to manage {@link Todo to do's}.
  */
-public interface ProjectService {
+public interface ToDoService {
 
     @Transactional(readOnly = true)
-    List<Project> findAll ();
+    List<Todo> findAll ();
 
     @Transactional
-    Project save ( Project entity );
+    Todo save ( Todo entity );
 
     @Transactional(readOnly = true)
-    Project findOne ( Long aLong );
+    Todo findOne ( Long aLong );
 }

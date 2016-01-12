@@ -11,7 +11,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -21,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = SpringSecurityLab3Application.class)
 @WebAppConfiguration
-public class AuthorizeRestCallsIntegrationTest {
+public class AuthorizeWebPagesIntegrationTest {
 
 	@Autowired
 	private WebApplicationContext context;
@@ -45,38 +44,59 @@ public class AuthorizeRestCallsIntegrationTest {
     }
 
     @Test
-    public void verifyRootPathAuthorizeOK() throws Exception {
+    public void verifyRootPathAuthorizeAdminOK() throws Exception {
         this.mvc
-                .perform ( get( "/" ).with(csrf()).with(user("admin").password("admin").roles("ADMIN") ) )
+                .perform ( get( "/" ).with(user("admin").password("admin").roles("ADMIN") ) )
                 .andExpect ( status ().isOk () );
     }
 
     @Test
-    public void verifyRootPathCsrfNOK() throws Exception {
+    public void verifyRootPathAuthorizeUserOK() throws Exception {
         this.mvc
-                .perform ( get( "/" ).with(csrf().useInvalidToken ()).with(user("admin").password("admin").roles("ADMIN") ) )
+                .perform ( get( "/" ).with(user("user").password("password").roles("USER") ) )
                 .andExpect ( status ().isOk () );
     }
 
     @Test
-    public void verifyAuditPathAuthorizeOK() throws Exception {
+    public void verifyUsersPathAuthorizeAdminOK() throws Exception {
         this.mvc
-                .perform ( get( "/audit" ).with(user("admin").password("admin").roles("ADMIN") ) )
+                .perform ( get( "/users" ).with(user("admin").password("admin").roles("ADMIN") ) )
                 .andExpect ( status ().isOk () );
     }
 
     @Test
-	public void verifyAdminPathAuthorizeOK() throws Exception {
+    public void verifyUsersPathAuthorizeUserNotOK() throws Exception {
         this.mvc
-                .perform ( get( "/admin" ).with(user("admin").password("admin").roles("ADMIN") ) )
+                .perform ( get( "/users" ).with(user("user").password("user").roles("USER") ) )
+                .andExpect ( status ().isForbidden () );
+    }
+
+    @Test
+	public void verifyCategoriesPathAuthorizeAdminOK() throws Exception {
+        this.mvc
+                .perform ( get( "/categories" ).with(user("admin").password("admin").roles("ADMIN") ) )
                 .andExpect ( status ().isOk () );
 	}
 
     @Test
-    public void verifyAdminPathAuthorizeNOK() throws Exception {
+    public void verifyCategoriesPathAuthorizeUserNotOK() throws Exception {
         this.mvc
-                .perform ( get( "/admin" ).with(user("user").password("secure").roles("USER") ) )
+                .perform ( get( "/categories" ).with(user("user").password("user").roles("USER") ) )
                 .andExpect ( status ().isForbidden () );
+    }
+
+    @Test
+    public void verifyTodoPathAuthorizeUserOK() throws Exception {
+        this.mvc
+                .perform ( get( "/todo" ).with(user("user").password("user").roles("USER") ) )
+                .andExpect ( status ().isOk () );
+    }
+
+    @Test
+    public void verifyTodoPathAuthorizeAdminOK() throws Exception {
+        this.mvc
+                .perform ( get( "/todo" ).with(user("admin").password("admin").roles("ADMIN") ) )
+                .andExpect ( status ().isOk () );
     }
 
 }

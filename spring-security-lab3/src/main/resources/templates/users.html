@@ -2,46 +2,37 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <div th:include="head :: header"></div>
-    <title>Administration of Projects</title>
+    <title>Administration of Users</title>
 </head>
 <body>
     <div class="container">
         <div th:include="navigation :: nav"></div>
-        <h1>Project Administration</h1>
+        <h1>User Administration</h1>
 
-        <table>
+        <table class="table table-striped" id="users">
             <thead>
             <tr>
-                <th th:text="#{seedstarter.datePlanted}">Date Planted</th>
-                <th th:text="#{seedstarter.covered}">Covered</th>
-                <th th:text="#{seedstarter.type}">Type</th>
-                <th th:text="#{seedstarter.features}">Features</th>
-                <th th:text="#{seedstarter.rows}">Rows</th>
+                <th>Index</th>
+                <th>Username</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Enabled</th>
+                <th>Roles</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="sb : ${allSeedStarters}">
-                <td th:text="${{sb.datePlanted}}">13/01/2011</td>
-                <td th:text="${sb.covered}? #{bool.true} : #{bool.false}">yes</td>
-                <td th:text="#{${'seedstarter.type.' + sb.type}}">Wireframe</td>
-                <td th:text="${#strings.arrayJoin(
-                           #messages.arrayMsg(
-                               #strings.arrayPrepend(sb.features,'seedstarter.feature.')),
-                           ', ')}">Electric Heating, Turf</td>
-                <td>
-                    <table>
-                        <tbody>
-                        <tr th:each="row,rowStat : ${sb.rows}">
-                            <td th:text="${rowStat.count}">1</td>
-                            <td th:text="${row.variety.name}">Thymus Thymi</td>
-                            <td th:text="${row.seedsPerCell}">12</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </td>
+            <tr th:each="usr,iterStat : ${allUsers}">
+                <td th:text="${iterStat.count}">0</td>
+                <td th:text="${usr.username}">username</td>
+                <td th:text="${usr.firstName}">firstname</td>
+                <td th:text="${usr.lastName}">lastname</td>
+                <td th:text="${usr.enabled}">no</td>
+                <td th:text="${usr.roles}">empty</td>
             </tr>
             </tbody>
         </table>
+
+        <a th:href="@{/adduser}" class="btn btn-standard" id="newUserButton">Add new user</a>
     </div>
 </body>
 </html>

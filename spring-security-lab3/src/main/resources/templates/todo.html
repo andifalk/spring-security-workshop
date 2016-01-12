@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:include="head :: header"></div>
+    <title>To Do List</title>
+</head>
+<body>
+    <div class="container">
+        <div th:include="navigation :: nav"></div>
+        <h1>To Do List</h1>
+
+        <h2>ToDo's</h2>
+
+        <table class="table table-striped" id="todos">
+            <thead>
+            <tr>
+                <th>Index</th>
+                <th>Subject</th>
+                <th>Start Date</th>
+                <th>Due Date</th>
+                <th>Category</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="todo,iterStat : ${allToDoEntries}">
+                <td th:text="${iterStat.count}">0</td>
+                <td th:text="${todo.subject}">test</td>
+                <td th:text="${todo.startDate}">13/01/2011</td>
+                <td th:text="${todo.dueDate}">13/01/2011</td>
+                <td th:text="${todo.category.name}">test</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <a th:href="@{/addtodo}" class="btn btn-standard" id="newToDoEntryButton">Add new ToDo</a>
+    </div>
+</body>
+</html>

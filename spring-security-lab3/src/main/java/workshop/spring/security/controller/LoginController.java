@@ -1,4 +1,4 @@
-package workshop.spring.security.config;
+package workshop.spring.security.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 /**
- * Created by AFA on 10.12.2015.
+ * Controller for login web page.
  */
 @Controller
 public class LoginController {

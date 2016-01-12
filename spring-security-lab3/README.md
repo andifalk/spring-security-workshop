@@ -1,2 +1,2 @@
-# spring-security Lab 2
-Workshop-Lab Teil 2 für Spring Security und Spring Boot
+# spring-security Lab 3
+Workshop-Lab Teil 3 für Spring Security und Spring Boot
