@@ -54,7 +54,6 @@ public class WebSecurityConfiguration {
                     .and ()
                     .logout ().logoutUrl ( "/logout" ).permitAll ().logoutSuccessUrl ( "/login" )
                     .and ()
-                    .csrf ().disable ()
                     .authorizeRequests ()
                     .antMatchers ( "/resources/**" ).permitAll ()
                     .antMatchers ( "/webjars/**" ).permitAll ()

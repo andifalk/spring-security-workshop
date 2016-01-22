@@ -125,6 +125,30 @@ public class User extends AbstractPersistable<Long> implements UserDetails, Cred
         return roles;
     }
 
+    public void setUsername ( String username ) {
+        this.username = username;
+    }
+
+    public void setPassword ( String password ) {
+        this.password = password;
+    }
+
+    public void setFirstName ( String firstName ) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName ( String lastName ) {
+        this.lastName = lastName;
+    }
+
+    public void setActive ( boolean active ) {
+        this.active = active;
+    }
+
+    public void setRoles ( Set<Role> roles ) {
+        this.roles = roles;
+    }
+
     @Override
     public String toString () {
         return new ToStringBuilder ( this, ToStringStyle.SIMPLE_STYLE )

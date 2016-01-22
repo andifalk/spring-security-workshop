@@ -1,5 +1,6 @@
 package workshop.spring.security.entity;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.data.jpa.domain.AbstractAuditable;
@@ -11,6 +12,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -80,6 +83,26 @@ public class Todo extends AbstractAuditable<User,Long> {
 
     public void setDueDate ( Date dueDate ) {
         this.dueDate = dueDate;
+    }
+
+    public void setStartDateString ( String startDate ) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat ( "yyy-MM-dd" );
+        setStartDate ( dateFormat.parse ( startDate ) );
+    }
+
+    public String getStartDateString () {
+        SimpleDateFormat dateFormat = new SimpleDateFormat ( "yyy-MM-dd" );
+        return getStartDate () != null ? dateFormat.format ( getStartDate () ) : null;
+    }
+
+    public void setDueDateString ( String dueDate ) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat ( "yyy-MM-dd" );
+        setDueDate ( dateFormat.parse ( dueDate ) );
+    }
+
+    public String getDueDateString () {
+        SimpleDateFormat dateFormat = new SimpleDateFormat ( "yyy-MM-dd" );
+        return getDueDate () != null ? dateFormat.format ( getDueDate () ) : null;
     }
 
     public Category getCategory () {

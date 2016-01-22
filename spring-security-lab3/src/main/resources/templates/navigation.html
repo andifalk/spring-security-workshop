@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -13,8 +13,8 @@
             <ul class="list-inline">
                 <li><a th:href="@{/}" class="btn btn-standard" id="menuHome">Home</a></li>
                 <li><a th:href="@{/todo}" class="btn btn-standard" id="menuTodos">ToDo's</a></li>
-                <li><a th:href="@{/categories}" class="btn btn-standard" id="menuCategories">Categories</a></li>
-                <li><a th:href="@{/users}" class="btn btn-standard" id="menuUsers">Users</a></li>
+                <li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/categories}" class="btn btn-standard" id="menuCategories">Categories</a></li>
+                <li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/users}" class="btn btn-standard" id="menuUsers">Users</a></li>
                 <li>
                     <form th:action="@{/logout}" method="post">
                         <input type="submit" class="btn btn-link" value="Logout" id="logoutButton"/>

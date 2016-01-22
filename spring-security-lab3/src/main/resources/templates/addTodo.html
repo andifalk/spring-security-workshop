@@ -9,24 +9,34 @@
         <div th:include="navigation :: nav"></div>
         <h1>Add new to do</h1>
 
-        <form action="#" th:action="@{/createtodo}" th:object="${todo}" method="post" id="createToDoForm">
+        <form action="#" th:action="@{/createtodo}" th:object="${todo}" method="post" id="createToDoForm" class="form-horizontal">
             <div class="form-group">
                 <label th:for="${#ids.next('subject')}">Subject</label>
-                <input type="text" th:field="*{subject}" id="subject"/>
+                <input type="text" class="form-control" th:field="*{subject}" id="subject"/>
             </div>
             <div class="form-group">
                 <label th:for="${#ids.next('description')}">Description</label>
-                <input type="text" th:field="*{description}" id="description"/>
+                <textarea class="form-control" rows="5" th:field="*{description}" id="description"/>
             </div>
             <div class="form-group">
                 <label th:for="${#ids.next('startDate')}">Start date</label>
-                <input type="date" th:field="*{startDate}" id="startDate"/>
+                <input type="date" class="form-control" th:field="*{startDateString}" id="startDate"/>
             </div>
             <div class="form-group">
                 <label th:for="${#ids.next('dueDate')}">Due date</label>
-                <input type="date" th:field="*{dueDate}" id="dueDate"/>
+                <input type="date" class="form-control" th:field="*{dueDateString}" id="dueDate"/>
             </div>
-            <input type="submit" value="Submit" id="saveToDoButton"></input>
+            <div class="form-group">
+                <label th:for="${#ids.next('category')}">Category</label>
+                <select class="form-control" th:field="*{category}" th:remove="all-but-first" id="category">
+                    <option th:each="cat : ${allCategories}"
+                            th:value="${cat.id}" th:text="${cat.name}">Category</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="submit" th:value="Add" class="btn btn-default" id="saveToDoButton">Add</button>
+                <a th:href="@{/todo}" class="btn btn-default" id="cancelButton">Cancel</a>
+            </div>
         </form>
     </div>
 </body>

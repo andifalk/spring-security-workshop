@@ -131,6 +131,7 @@ public class AppController {
     public String createTodo(
             final Todo todo, final BindingResult bindingResult, final ModelMap model) {
         if (bindingResult.hasErrors()) {
+            LOGGER.info ( "Error creating TODO: {}", bindingResult.getAllErrors () );
             return "addtodo";
         }
         this.toDoService.save ( todo );
@@ -155,5 +156,20 @@ public class AppController {
     public String addUser( Model model) {
         model.addAttribute ( "user", new User () );
         return "adduser";
+    }
+
+    /**
+     * Request mapping for storing user.
+     * @return web page
+     */
+    @RequestMapping(value="/createuser")
+    public String createUser(
+            final User user, final BindingResult bindingResult, final ModelMap model) {
+        if (bindingResult.hasErrors()) {
+            return "adduser";
+        }
+        this.userService.save ( user );
+        model.clear();
+        return "redirect:/users";
     }
 }
