@@ -13,6 +13,7 @@
         <module>spring-security-lab1</module>
         <module>spring-security-lab2</module>
         <module>spring-security-lab3</module>
+        <module>spring-security-uitest-lab</module>
     </modules>
 
 </project>

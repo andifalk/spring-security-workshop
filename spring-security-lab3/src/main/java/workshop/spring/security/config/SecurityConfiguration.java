@@ -1,5 +1,6 @@
 package workshop.spring.security.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDecisionManager;
@@ -10,6 +11,7 @@ import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.access.vote.AffirmativeBased;
 import org.springframework.security.access.vote.AuthenticatedVoter;
 import org.springframework.security.access.vote.RoleHierarchyVoter;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
 
@@ -24,6 +26,9 @@ import java.util.List;
 public class SecurityConfiguration extends GlobalMethodSecurityConfiguration {
 
     private static final String ROLE_HIERARCHY = "ROLE_ADMIN > ROLE_USER";
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @Override
     protected AccessDecisionManager accessDecisionManager () {
@@ -45,5 +50,10 @@ public class SecurityConfiguration extends GlobalMethodSecurityConfiguration {
         RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl ();
         roleHierarchy.setHierarchy ( ROLE_HIERARCHY );
         return roleHierarchy;
+    }
+
+    @Override
+    protected AuthenticationManager authenticationManager () throws Exception {
+        return authenticationManager;
     }
 }

@@ -24,7 +24,8 @@
             <tbody>
             <tr th:each="todo,iterStat : ${allToDoEntries}">
                 <td th:text="${iterStat.count}">0</td>
-                <td th:text="${todo.subject}">test</td>
+                <!-- Here the unsafe th:utext is used to create a XSS vulnerability -->
+                <td th:utext="${todo.subject}">test</td>
                 <td th:text="${todo.startDate}">13/01/2011</td>
                 <td th:text="${todo.dueDate}">13/01/2011</td>
                 <td th:text="${todo.category.name}">test</td>

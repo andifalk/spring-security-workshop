@@ -25,8 +25,8 @@ import java.util.Date;
 public class Todo extends AbstractAuditable<User,Long> {
 
     @NotNull
-    @Size(min = 3, max = 30)
-    @Column(length = 30, nullable = false, unique = true)
+    @Size(min = 3, max = 50)
+    @Column(length = 50, nullable = false, unique = true)
     private String subject;
 
     @Size(max = 1000)

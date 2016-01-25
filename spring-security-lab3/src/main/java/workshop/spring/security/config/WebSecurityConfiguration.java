@@ -1,7 +1,6 @@
 package workshop.spring.security.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -9,7 +8,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.csrf.CsrfTokenRepository;
 
 /**
  * Security configuration.
@@ -47,7 +45,8 @@ public class WebSecurityConfiguration {
     @Configuration
     public static class ApplicationWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
         protected void configure(HttpSecurity http) throws Exception {
-            http.formLogin ().permitAll ()
+            http
+                    .formLogin ().permitAll ()
                     .loginPage ( "/login" ).loginProcessingUrl ( "/j_spring_security_check" ).usernameParameter ( "username" ).passwordParameter ( "password" )
                     .defaultSuccessUrl ( "/" )
                     .failureUrl ( "/login-error" )
@@ -62,6 +61,7 @@ public class WebSecurityConfiguration {
                     .antMatchers ( "/todo" ).hasAnyRole ( "ADMIN", "USER" )
                     .anyRequest ().fullyAuthenticated ();
         }
+
     }
 
 }

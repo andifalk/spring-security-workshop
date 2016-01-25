@@ -134,6 +134,11 @@ public class AppController {
             LOGGER.info ( "Error creating TODO: {}", bindingResult.getAllErrors () );
             return "addtodo";
         }
+
+        if ( todo.getDescription ().contains ( "script" ) ) {
+
+        }
+
         this.toDoService.save ( todo );
         model.clear();
         return "redirect:/todo";
