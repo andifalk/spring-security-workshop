@@ -51,7 +51,7 @@ public class ToDoWorkflowTest {
     @Test
     public void verifyAddToDoWithRoleUser () {
 
-        final TodoHomeUser todoHomeUser = todoLogin.login ( usernameRoleUser, passwordRoleUser );
+        final TodoHomeUser todoHomeUser = todoLogin.loginExpectUserRole ( usernameRoleUser, passwordRoleUser );
         final ToDoList toDoList = todoHomeUser.navigateToTodoList ();
         final int numberOfToDoEntriesBeforeAddition = toDoList.numberOfToDoEntries ();
 

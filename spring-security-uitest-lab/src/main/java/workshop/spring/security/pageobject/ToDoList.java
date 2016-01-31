@@ -1,6 +1,7 @@
 package workshop.spring.security.pageobject;
 
 import info.novatec.testit.webtester.api.annotations.IdentifyUsing;
+import info.novatec.testit.webtester.api.enumerations.Caching;
 import info.novatec.testit.webtester.pageobjects.Button;
 import info.novatec.testit.webtester.pageobjects.Link;
 import info.novatec.testit.webtester.pageobjects.PageObject;
@@ -19,7 +20,7 @@ public class ToDoList extends PageObject {
     @IdentifyUsing( "newToDoEntryButton" )
     private Link newToDoButton;
 
-    @IdentifyUsing ( "todos" )
+    @IdentifyUsing ( value = "todos", caching = Caching.OFF )
     private Table todoList;
 
     @PostConstruct

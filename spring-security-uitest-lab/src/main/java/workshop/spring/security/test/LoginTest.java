@@ -9,6 +9,8 @@ import info.novatec.testit.webtester.junit.runner.WebTesterJUnitRunner;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import workshop.spring.security.pageobject.TodoHomeAdmin;
+import workshop.spring.security.pageobject.TodoHomeUser;
 import workshop.spring.security.pageobject.TodoLogin;
 
 import javax.annotation.Resource;
@@ -43,13 +45,15 @@ public class LoginTest {
     @Test
     public void verifyLoginUserWithRoleUser () {
 
-        todoLogin.login ( usernameRoleUser, passwordRoleUser ).logout ();
+        final TodoHomeUser todoHomeUser = todoLogin.loginExpectUserRole ( usernameRoleUser, passwordRoleUser );
+        todoHomeUser.logout ();
     }
 
     @Test
     public void verifyLoginUserWithRoleAdmin () {
 
-        todoLogin.login ( usernameRoleAdmin, passwordRoleAdmin ).logout ();
+        final TodoHomeAdmin todoHomeAdmin = todoLogin.loginExpectAdminRole ( usernameRoleAdmin, passwordRoleAdmin );
+        todoHomeAdmin.logout ();
     }
 
     @Test

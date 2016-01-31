@@ -2,6 +2,7 @@ package workshop.spring.security.pageobject;
 
 import info.novatec.testit.webtester.api.annotations.IdentifyUsing;
 import info.novatec.testit.webtester.pageobjects.Button;
+import info.novatec.testit.webtester.pageobjects.Link;
 import info.novatec.testit.webtester.pageobjects.PageObject;
 
 import javax.annotation.PostConstruct;
@@ -17,9 +18,24 @@ public class TodoHomeAdmin extends TodoHomeUser {
     @IdentifyUsing ( "logoutButton" )
     private Button logoutLink;
 
+    @IdentifyUsing ( "menuTodos" )
+    private Link menuToDos;
+
+    @IdentifyUsing ( "menuCategories" )
+    private Link menuCategories;
+
+    @IdentifyUsing ( "menuUsers" )
+    private Link menuUsers;
+
+
     @PostConstruct
-    private void verifyLoginPageIsDisplayed() {
-        assertThat ( "Should display login page", getBrowser ().getPageTitle (), is ( "Welcome to the ToDo tracker" ) );
+    private void verifyAdminHomePageIsDisplayed() {
+        assertThat ( "Should display home page for user with role ADMIN",
+                getBrowser ().getPageTitle (), is ( "Welcome to the ToDo tracker" ) );
+        assertThat ( "Menu for ToDos should be visible", menuToDos.isVisible (), is ( true ) );
+        assertThat ( "Menu for Categories should be visible", menuCategories.isVisible (), is ( true ) );
+        assertThat ( "Menu for Users should be visible", menuUsers.isVisible (), is ( true ) );
+
     }
 
     public TodoLogin logout () {

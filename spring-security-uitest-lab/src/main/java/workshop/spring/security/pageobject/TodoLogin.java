@@ -31,8 +31,12 @@ public class TodoLogin extends PageObject {
         assertThat ( "Should display login page", getBrowser ().getUrl (), is ( containsString ( "login" ) ) );
     }
 
-    public TodoHomeUser login ( String username, String password) {
-        return setUsername ( username ).setPassword ( password ).clickLogin ();
+    public TodoHomeUser loginExpectUserRole ( String username, String password) {
+        return setUsername ( username ).setPassword ( password ).clickLoginExpectUserRole ();
+    }
+
+    public TodoHomeAdmin loginExpectAdminRole ( String username, String password) {
+        return setUsername ( username ).setPassword ( password ).clickLoginExpectAdminRole ();
     }
 
     public TodoLogin loginExpectError (String username, String password) {
@@ -49,9 +53,14 @@ public class TodoLogin extends PageObject {
         return this;
     }
 
-    public TodoHomeUser clickLogin () {
+    public TodoHomeUser clickLoginExpectUserRole () {
         loginButton.click ();
         return create ( TodoHomeUser.class );
+    }
+
+    public TodoHomeAdmin clickLoginExpectAdminRole () {
+        loginButton.click ();
+        return create ( TodoHomeAdmin.class );
     }
 
     public TodoLogin clickLoginExpectError () {
