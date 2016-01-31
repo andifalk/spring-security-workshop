@@ -19,6 +19,8 @@ import workshop.spring.security.service.CategoryService;
 import workshop.spring.security.service.ToDoService;
 import workshop.spring.security.service.UserService;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 /**
@@ -135,13 +137,17 @@ public class AppController {
             return "addtodo";
         }
 
-        if ( todo.getDescription ().contains ( "script" ) ) {
-
+        try {
+            this.toDoService.save ( todo );
+            model.clear ();
+            model.addAttribute ( "allToDoEntries", this.toDoService.findAll());
+            return "/todo";
+            //return "redirect:/todo";
+        } catch ( ConstraintViolationException ex ) {
+            final ConstraintViolation<?> constraintViolation = ex.getConstraintViolations ().iterator ().next ();
+            model.addAttribute ( "error", constraintViolation.getPropertyPath ().toString () + ": " + constraintViolation.getMessage () );
+            return "addToDo";
         }
-
-        this.toDoService.save ( todo );
-        model.clear();
-        return "redirect:/todo";
     }
 
     /**

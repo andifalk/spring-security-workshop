@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,7 +27,11 @@ public class Todo extends AbstractAuditable<User,Long> {
 
     @NotNull
     @Size(min = 3, max = 50)
-    @Column(length = 50, nullable = false, unique = true)
+    /*
+    @Pattern (
+            regexp = "^[A-Za-z0-9 ]*$",
+            message = "Only alphanumeric and space characters are allowed" )*/
+    @Column(length = 50, nullable = false)
     private String subject;
 
     @Size(max = 1000)
