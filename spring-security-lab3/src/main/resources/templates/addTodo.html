@@ -37,6 +37,7 @@
                 <button type="submit" th:value="Add" class="btn btn-default" id="saveToDoButton">Add</button>
                 <a th:href="@{/todo}" class="btn btn-default" id="cancelButton">Cancel</a>
             </div>
+            <span id="errormsg" th:if="${error}" th:text="${error}">Wrong input</span>
         </form>
     </div>
 </body>
