@@ -10,7 +10,7 @@
 <body>
     <div class="container">
         <h1>Login</h1>
-        <form id="f" th:action="@{/j_spring_security_check}" method="post">
+        <form id="f" th:action="@{/login}" method="post">
         <span id="errormsg" th:if="${error}">Wrong user name or password</span>
         <div class="form-group">
             <label for="username">Username</label>

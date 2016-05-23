@@ -9,30 +9,15 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 /**
  * Web security configuration.
  */
-@EnableWebSecurity
+//@EnableWebSecurity
 @Configuration
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure ( AuthenticationManagerBuilder auth ) throws Exception {
         auth.inMemoryAuthentication ()
-                .withUser ( "user" ).password ( "secure" ).roles ( "USER" )
+                .withUser ( "user" ).password ( "secret" ).roles ( "USER" )
                 .and ()
                 .withUser ( "admin" ).password ( "admin" ).roles ( "ADMIN" );
-    }
-
-    @Override
-    protected void configure ( HttpSecurity http ) throws Exception {
-        http.formLogin ().permitAll ()
-                .loginPage ( "/login" ).loginProcessingUrl ( "/j_spring_security_check" ).usernameParameter ( "username" ).passwordParameter ( "password" )
-                .defaultSuccessUrl ( "/" )
-                .failureUrl ( "/login-error" )
-                .and ().logout ().logoutUrl ( "/logout" ).permitAll ().logoutSuccessUrl ( "/login" )
-            .and ()
-            .authorizeRequests ()
-                .antMatchers ( "/resources/**" ).permitAll ()
-                .antMatchers ( "/webjars/**" ).permitAll ()
-                .antMatchers ( "/users" ).hasAnyRole ( "ADMIN", "USER" )
-                .anyRequest ().fullyAuthenticated ();
     }
 }

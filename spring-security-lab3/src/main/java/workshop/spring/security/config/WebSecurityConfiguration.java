@@ -1,6 +1,7 @@
 package workshop.spring.security.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -8,6 +9,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * Security configuration.
@@ -16,11 +19,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 public class WebSecurityConfiguration {
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    public void configureGlobal ( AuthenticationManagerBuilder auth, UserDetailsService userDetailsService )
+            throws Exception {
+        auth.userDetailsService ( userDetailsService  ).passwordEncoder(passwordEncoder());
+    }
 
-    @Autowired
-    public void configureGlobal ( AuthenticationManagerBuilder auth ) throws Exception {
-        auth.userDetailsService ( userDetailsService  );
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Configuration
@@ -33,7 +39,7 @@ public class WebSecurityConfiguration {
                     .headers ().frameOptions ().disable ()
                     .and ()
                     .formLogin ().permitAll ()
-                    .loginPage ( "/login" ).loginProcessingUrl ( "/j_spring_security_check" ).usernameParameter ( "username" ).passwordParameter ( "password" )
+                    .loginPage ( "/login" )
                     .defaultSuccessUrl ( "/h2-console" )
                     .failureUrl ( "/login-error" )
                     .and ()
@@ -47,7 +53,7 @@ public class WebSecurityConfiguration {
         protected void configure(HttpSecurity http) throws Exception {
             http
                     .formLogin ().permitAll ()
-                    .loginPage ( "/login" ).loginProcessingUrl ( "/j_spring_security_check" ).usernameParameter ( "username" ).passwordParameter ( "password" )
+                    .loginPage ( "/login" )
                     .defaultSuccessUrl ( "/" )
                     .failureUrl ( "/login-error" )
                     .and ()

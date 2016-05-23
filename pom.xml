@@ -13,7 +13,10 @@
         <module>spring-security-lab1</module>
         <module>spring-security-lab2</module>
         <module>spring-security-lab3</module>
-        <module>spring-security-uitest-lab</module>
+        <module>spring-security-oauth-authserver-lab</module>
+        <module>spring-security-oauth-resource-lab</module>
+        <module>spring-security-oauth-client-lab</module>
+        <module>spring-security-sso-oauth-client-lab</module>
     </modules>
 
 </project>
