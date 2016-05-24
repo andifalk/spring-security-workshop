@@ -67,7 +67,6 @@ public class WebSecurityConfiguration {
                     .antMatchers ( "/todo" ).hasAnyRole ( "ADMIN", "USER" )
                     .anyRequest ().fullyAuthenticated ();
         }
-
     }
 
 }
