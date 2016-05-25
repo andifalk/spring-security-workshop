@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * Created by AFA on 23.05.2016.
+ * User entity.
  */
 public class User implements UserDetails {
 
@@ -17,9 +17,6 @@ public class User implements UserDetails {
     private String lastName;
 
     private Collection<? extends GrantedAuthority> authorities = new ArrayList<>();
-
-    public User() {
-    }
 
     public User(String username, String password, String firstName, String lastName, Collection<? extends GrantedAuthority> authorities) {
         this.username = username;
@@ -90,5 +87,16 @@ public class User implements UserDetails {
 
     public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
         this.authorities = authorities;
+    }
+
+    @Override
+    public String toString () {
+        return new org.apache.commons.lang3.builder.ToStringBuilder ( this )
+                .append ( "username", username )
+                .append ( "password", password )
+                .append ( "firstName", firstName )
+                .append ( "lastName", lastName )
+                .append ( "authorities", authorities )
+                .toString ();
     }
 }

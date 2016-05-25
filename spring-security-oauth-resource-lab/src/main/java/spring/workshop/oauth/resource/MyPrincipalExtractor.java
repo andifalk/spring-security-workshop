@@ -6,13 +6,21 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 /**
- * Created by AFA on 23.05.2016.
+ * Custom principal extractor.
  */
 @Component
 public class MyPrincipalExtractor implements PrincipalExtractor {
+    private static final String[] PRINCIPAL_KEYS = new String[] { "username", "name" };
 
     @Override
     public Object extractPrincipal(Map<String, Object> map) {
-        return new User((String)map.get("name"));
+        String userName = "n/a";
+        for (String key : PRINCIPAL_KEYS) {
+            if (map.containsKey(key)) {
+                userName = (String) map.get(key);
+                break;
+            }
+        }
+        return new User(userName, (String) map.get ( "firstName" ), (String) map.get ( "lastName" ));
     }
 }

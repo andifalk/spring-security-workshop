@@ -22,7 +22,11 @@ public class OAuthAuthServerLabApplication {
 
     @RequestMapping(path = "/user")
     public User user(Principal principal) {
-        return (User)((OAuth2Authentication) principal).getPrincipal();
+        if (((OAuth2Authentication) principal).getPrincipal() instanceof User) {
+            return (User) ((OAuth2Authentication) principal).getPrincipal ();
+        } else {
+            return new User ( principal.getName (), "", "Hans", "Mustermann", ((OAuth2Authentication) principal).getAuthorities () );
+        }
     }
 
 }

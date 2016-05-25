@@ -28,10 +28,14 @@ public class SsoOAuthClientLabApplication {
 
     @RequestMapping(path = "/")
     public String index(Principal principal) {
-        User user = (User) ((OAuth2Authentication) principal).getPrincipal();
-        return String.format("Successfully authenticated user '%s', first name '%s', last name '%s'",
-                user.getName(),
-                user.getFirstName(), user.getFirstName());
+        if (((OAuth2Authentication) principal).getPrincipal() instanceof User) {
+            User user = (User) ((OAuth2Authentication) principal).getPrincipal ();
+            return String.format ( "Successfully authenticated user '%s', first name '%s', last name '%s'",
+                    user.getName (),
+                    user.getFirstName (), user.getFirstName () );
+        } else {
+            return String.format ( "Successfully authenticated user '%s'", principal.getName () );
+        }
     }
 
     @RequestMapping(path = "/protected")

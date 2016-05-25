@@ -19,6 +19,7 @@ This includes:
 - Multiple security configurations
 - Persistent user storage with encrypted passwords
 - A user defined login form
+- Optional: SSL transport security
 - Role hierarchy
 - Role based UI and method layer authorization
 

@@ -1,6 +1,7 @@
 package spring.workshop.oauth.resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -10,6 +11,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 
 import javax.annotation.PostConstruct;
 import java.util.Collections;
@@ -17,31 +20,42 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by AFA on 23.05.2016.
+ * Defines custom user details service with password encryption.
  */
-//@Order(-10)
+@Order( SecurityProperties.ACCESS_OVERRIDE_ORDER)
 @Configuration
 public class AuthenticationManagerConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder.userDetailsService(myUserDetailsService());
+        authenticationManagerBuilder.userDetailsService(myUserDetailsService()).passwordEncoder ( passwordEncoder () );
     }
 
     @Bean
     public MyUserDetailsService myUserDetailsService() {
-        return new MyUserDetailsService();
+        return new MyUserDetailsService(passwordEncoder ());
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new Pbkdf2PasswordEncoder ();
     }
 
     public static class MyUserDetailsService implements UserDetailsService {
 
         private Map<String,User> users = new HashMap<>();
 
+        private PasswordEncoder passwordEncoder;
+
+        public MyUserDetailsService ( PasswordEncoder passwordEncoder ) {
+            this.passwordEncoder = passwordEncoder;
+        }
+
         @PostConstruct
         public void initUsers() {
-            users.put("user", new User("user","secret","Hans","Mustermann",
+            users.put("user", new User("user",passwordEncoder.encode ( "secret" ),"Mister","User",
                     Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"))));
-            users.put("admin", new User("admin","admin","Super","Admin",
+            users.put("admin", new User("admin",passwordEncoder.encode ( "admin" ),"Super","Admin",
                     Collections.singletonList(new SimpleGrantedAuthority("ROLE_ADMIN"))));
         }
 
